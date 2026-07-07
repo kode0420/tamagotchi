@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tamagotchi V14 - Controles en Línea</title>
+    <title>Tamagotchi V16 - Limites Reales</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -61,7 +61,7 @@
         .header-bar { width: 100%; text-align: center; margin-bottom: 15px; }
         .brand-title { font-size: 12px; color: rgba(255,255,255,0.9); text-shadow: 1px 1px 0px rgba(0,0,0,0.4); letter-spacing: 1px; }
 
-        /* Pantalla bloqueada para que no encoja */
+        /* Pantalla */
         .screen-container {
             width: 240px; height: 200px; background: #1a1a1a; border-radius: 20px; padding: 12px;
             box-shadow: 0px 5px 15px rgba(0,0,0,0.5), inset 0px 3px 5px rgba(255,255,255,0.3), inset 0px -3px 5px rgba(0,0,0,0.5);
@@ -93,9 +93,9 @@
         .bar-fill { height: 100%; background: #222; transition: width 0.5s; }
         .apple-count { font-size: 8px; color: #222; margin-top: 2px; }
 
-        /* MINIJUEGO OPTIMIZADO GPU */
-        #game-player { position: absolute; bottom: 10px; font-size: 35px; filter: grayscale(100%) contrast(150%); z-index: 5; will-change: transform; }
-        .game-item { position: absolute; top: -20px; font-size: 25px; filter: grayscale(100%) contrast(150%); z-index: 4; will-change: transform; }
+        /* MINIJUEGO - Posición inicial estricta a la izquierda */
+        #game-player { position: absolute; bottom: 10px; left: 5px; font-size: 35px; filter: grayscale(100%) contrast(150%); z-index: 5; will-change: transform; }
+        .game-item { position: absolute; top: -20px; left: 5px; font-size: 25px; filter: grayscale(100%) contrast(150%); z-index: 4; will-change: transform; }
         #game-ui { position: absolute; top: 5px; width: 100%; text-align: center; font-size: 8px; color: #222; z-index: 6; line-height: 1.5; }
         .shield-active { filter: grayscale(100%) contrast(150%) drop-shadow(0 0 5px gold) !important; }
         .hurt-active { filter: grayscale(100%) contrast(150%) opacity(0.5) !important; }
@@ -113,17 +113,16 @@
         }
         .btn:active { transform: translateY(4px); box-shadow: 0px 0px 0px var(--btn-shadow), 0px 2px 5px rgba(0,0,0,0.3), inset 0px 2px 2px rgba(0,0,0,0.2); }
         
-        /* BOTONES DE MOVIMIENTO EN LÍNEA RECTA */
         .move-buttons { 
             display: flex; 
             justify-content: center; 
-            gap: 30px; /* Espacio entre izquierdo y derecho */
+            gap: 30px; 
             width: 100%; 
             margin-top: 5px;
             touch-action: none; 
         }
         .move-btn { 
-            width: 60px; height: 60px; /* Grandes y cómodos */
+            width: 60px; height: 60px; 
             background: linear-gradient(to bottom, #444, #222); border: 1px solid #111; color: #ccc; cursor: pointer; 
             display: flex; align-items: center; justify-content: center; font-size: 28px; border-radius: 50%; user-select: none; 
             box-shadow: inset 0px 2px 2px rgba(255,255,255,0.2), 0px 3px 3px rgba(0,0,0,0.5);
@@ -191,7 +190,6 @@
             <button class="btn" onclick="action('clean')">LIMPIAR</button>
         </div>
         
-        <!-- Botones de movimiento en línea recta -->
         <div class="move-buttons">
             <div class="move-btn" id="btnLeft">◀</div>
             <div class="move-btn" id="btnRight">▶</div>
@@ -337,15 +335,15 @@
     }
 
     // ==========================================
-    // MINI-JUEGO OPTIMIZADO (Límites Ajustados)
+    // MINI-JUEGO (Límites Dinámicos Reales)
     // ==========================================
     let isPlayingMiniGame = false;
-    let playerPos = 95, gameScore = 0, gameLives = 3;
+    let playerPos = 0, gameScore = 0, gameLives = 3; // playerPos empieza en 0 (izquierda)
     let items = [], moveDir = 0, fallSpeed = 2, isInvincible = false, hitCooldown = false;
     let appleSpawnRate = 0.015, poopSpawnRate = 0.010;
     let gamePlayerEl, gameViewEl;
-    let lastTime = 0;
-    let animationFrameId;
+    let lastTime = 0, animationFrameId;
+    let maxPos = 180; // Se calculará dinámicamente al empezar
 
     function startMiniGame() {
         if (pet.energy < 20) { document.getElementById("messageText").innerText = "Mochi está muy cansado."; playSound(150, 0.3, 'sawtooth'); return; }
@@ -357,7 +355,12 @@
         gamePlayerEl = document.getElementById("game-player");
         gameViewEl = document.getElementById("game-view");
         
-        playerPos = 95; // Centrado para la nueva pantalla
+        // Calcular límites reales basados en el ancho de la pantalla
+        let gameWidth = gameViewEl.clientWidth;
+        let playerWidth = gamePlayerEl.offsetWidth || 35; // ancho del muñeco
+        maxPos = gameWidth - playerWidth - 10; // 5px de padding izquierda + 5px derecha
+        
+        playerPos = 5; // Empieza en la izquierda
         gamePlayerEl.style.transform = `translate3d(${playerPos}px, 0, 0)`;
         gamePlayerEl.innerText = pet.sprite;
         gamePlayerEl.classList.remove("shield-active", "hurt-active");
@@ -377,10 +380,11 @@
         const deltaTime = (timestamp - lastTime) / 16.6;
         lastTime = timestamp;
 
+        // Movimiento limitado entre 5 y maxPos
         playerPos += moveDir * 3.5 * deltaTime; 
-        if(playerPos < 0) playerPos = 0;
-        if(playerPos > 195) playerPos = 195; // Límite exacto de la pantalla
-        gamePlayerEl.style.transform = `translate3d(${playerPos}px, 0, 0)`;
+        if(playerPos < 5) playerPos = 5; 
+        if(playerPos > maxPos) playerPos = maxPos; 
+        gamePlayerEl.style.transform = `translate3d(${playerPos - 5}px, 0, 0)`; // Ajuste visual fino
 
         if (Math.random() < appleSpawnRate) spawnItem('🍎');
         if (Math.random() < poopSpawnRate) spawnItem('💩');
@@ -391,7 +395,7 @@
             it.y += fallSpeed * deltaTime;
             it.el.style.transform = `translate3d(${it.x}px, ${it.y}px, 0)`;
 
-            if (it.y > 130) { // Colisión ajustada
+            if (it.y > 130) { 
                 if (Math.abs(it.x - playerPos) < 30) {
                     if (it.type === '🍎') {
                         gameScore += 10; pet.apples++; playSound(880, 0.05);
@@ -408,7 +412,7 @@
                         }
                     }
                     it.el.remove(); items.splice(i, 1);
-                } else if (it.y > 180) { it.el.remove(); items.splice(i, 1); } // Limpieza ajustada
+                } else if (it.y > 180) { it.el.remove(); items.splice(i, 1); } 
             }
         }
         animationFrameId = requestAnimationFrame(updateGame);
@@ -424,7 +428,8 @@
     function spawnItem(type) {
         let el = document.createElement('div');
         el.className = 'game-item'; el.innerText = type;
-        let xPos = Math.random() * 180; // Ajustado a la pantalla
+        // Calcular un X aleatorio dentro del máximo permitido
+        let xPos = Math.random() * (maxPos - 5) + 5; 
         el.style.transform = `translate3d(${xPos}px, -20px, 0)`;
         gameViewEl.appendChild(el);
         items.push({ el: el, y: -20, x: xPos, type: type });
