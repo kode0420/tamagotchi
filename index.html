@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tamagotchi V16 - Limites Reales</title>
+    <title>Tamagotchi V19.2 - Hard Mode</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -15,119 +15,83 @@
         }
 
         body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Press Start 2P', cursive;
-            background: #0d0221;
-            position: relative;
-            overflow: hidden;
-            touch-action: manipulation;
+            margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
+            font-family: 'Press Start 2P', cursive; background: #0d0221;
+            position: relative; overflow: hidden; touch-action: manipulation;
         }
 
-        /* FONDO SYNTHWAVE */
-        .synthwave-sun {
-            position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
-            width: 300px; height: 300px;
-            background: linear-gradient(to bottom, #ffea00 0%, #ff2525 100%);
-            border-radius: 50%; box-shadow: 0 0 60px rgba(255, 50, 50, 0.6); z-index: 0;
-        }
-        .synthwave-sun::after {
-            content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 50%;
-            background: repeating-linear-gradient(to bottom, transparent, transparent 10px, #0d0221 10px, #0d0221 15px);
-            border-radius: 0 0 150px 150px;
-        }
-        .synthwave-grid {
-            position: absolute; bottom: 0; width: 200%; height: 50vh; left: -50%;
-            background-image: linear-gradient(rgba(255, 0, 128, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.3) 1px, transparent 1px);
-            background-size: 40px 40px; transform: perspective(500px) rotateX(60deg); z-index: 0;
-            mask-image: linear-gradient(to top, #000 0%, transparent 80%);
-            -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 80%);
-            animation: gridMove 1.5s linear infinite;
-        }
+        .synthwave-sun { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: linear-gradient(to bottom, #ffea00 0%, #ff2525 100%); border-radius: 50%; box-shadow: 0 0 60px rgba(255, 50, 50, 0.6); z-index: 0; }
+        .synthwave-sun::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 50%; background: repeating-linear-gradient(to bottom, transparent, transparent 10px, #0d0221 10px, #0d0221 15px); border-radius: 0 0 150px 150px; }
+        .synthwave-grid { position: absolute; bottom: 0; width: 200%; height: 50vh; left: -50%; background-image: linear-gradient(rgba(255, 0, 128, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.3) 1px, transparent 1px); background-size: 40px 40px; transform: perspective(500px) rotateX(60deg); z-index: 0; mask-image: linear-gradient(to top, #000 0%, transparent 80%); -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 80%); animation: gridMove 1.5s linear infinite; }
         @keyframes gridMove { from { background-position: 0 0; } to { background-position: 0 40px; } }
 
-        /* CARCASA */
-        .device {
-            background: radial-gradient(circle at 30% 15%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 50%), linear-gradient(135deg, var(--shell-color1), var(--shell-color2));
-            width: 340px; height: 540px; border-radius: 50% 50% 20% 20% / 40% 40% 15% 15%;
-            padding: 40px 30px 30px 30px;
-            box-shadow: 0px 20px 50px rgba(0,0,0,0.8), inset 0px 8px 15px rgba(255,255,255,0.5), inset 0px -15px 25px rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; align-items: center; border: 2px solid rgba(0,0,0,0.2);
-            position: relative; z-index: 1;
-        }
+        .device { background: radial-gradient(circle at 30% 15%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 50%), linear-gradient(135deg, var(--shell-color1), var(--shell-color2)); width: 340px; height: 540px; border-radius: 50% 50% 20% 20% / 40% 40% 15% 15%; padding: 40px 30px 30px 30px; box-shadow: 0px 20px 50px rgba(0,0,0,0.8), inset 0px 8px 15px rgba(255,255,255,0.5), inset 0px -15px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; border: 2px solid rgba(0,0,0,0.2); position: relative; z-index: 1; }
         .header-bar { width: 100%; text-align: center; margin-bottom: 15px; }
         .brand-title { font-size: 12px; color: rgba(255,255,255,0.9); text-shadow: 1px 1px 0px rgba(0,0,0,0.4); letter-spacing: 1px; }
 
-        /* Pantalla */
-        .screen-container {
-            width: 240px; height: 200px; background: #1a1a1a; border-radius: 20px; padding: 12px;
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.5), inset 0px 3px 5px rgba(255,255,255,0.3), inset 0px -3px 5px rgba(0,0,0,0.5);
-            position: relative; margin-bottom: 10px; flex-shrink: 0; 
-        }
-        .screen {
-            width: 100%; height: 100%; background-color: #c4cfa1; border-radius: 8px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative; overflow: hidden; border: 4px solid #333;
-        }
-        .screen::after {
-            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 2px, transparent 2px, transparent 4px);
-            pointer-events: none; z-index: 20;
-        }
+        .screen-container { width: 240px; height: 200px; background: #1a1a1a; border-radius: 20px; padding: 12px; box-shadow: 0px 5px 15px rgba(0,0,0,0.5), inset 0px 3px 5px rgba(255,255,255,0.3), inset 0px -3px 5px rgba(0,0,0,0.5); position: relative; margin-bottom: 10px; flex-shrink: 0; }
+        .screen { width: 100%; height: 100%; background-color: #c4cfa1; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 4px solid #333; transition: background-color 0.5s; }
+        .screen::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 2px, transparent 2px, transparent 4px); pointer-events: none; z-index: 20; }
+        
+        .screen.night-mode { background-color: #2b3a4a; }
+        .evolve-flash { animation: flash 0.5s infinite; }
+        @keyframes flash { 0% { background-color: #c4cfa1; } 50% { background-color: #fff; } 100% { background-color: #c4cfa1; } }
+
+        .weather-icon { position: absolute; top: 5px; right: 5px; font-size: 12px; z-index: 7; filter: grayscale(100%); }
+        .weather-rain { position: absolute; width: 100%; height: 100%; background: repeating-linear-gradient(110deg, transparent, transparent 8px, rgba(0,0,0,0.2) 8px, rgba(0,0,0,0.2) 9px); z-index: 1; pointer-events: none; animation: rainBg 0.2s linear infinite; }
+        @keyframes rainBg { from { background-position: 0 0; } to { background-position: 0 10px; } }
+        .weather-snow { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(0,0,0,0.4) 1px, transparent 1px); background-size: 10px 10px; z-index: 1; pointer-events: none; animation: snowBg 1s linear infinite; }
+        @keyframes snowBg { from { background-position: 0 0; } to { background-position: 5px 10px; } }
 
         .view { display: flex; flex-direction: column; align-items: center; width: 100%; height: 100%; z-index: 2; position: relative; justify-content: center; gap: 5px; padding-top: 5px; }
         .hidden-view { display: none !important; }
         .pet-header { display: flex; flex-direction: column; align-items: center; }
         .pet-name { font-size: 11px; color: #222; }
         .pet-age { font-size: 6px; color: #222; margin-top: 2px; }
+        
+        .pet-container { position: relative; display: flex; justify-content: center; align-items: center; height: 45px; width: 100%; }
         .pet-sprite { font-size: 40px; filter: contrast(150%) grayscale(100%); text-shadow: 2px 2px 0px rgba(0,0,0,0.2); animation: bounce 1s infinite alternate; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-5px); } }
+        .hat-overlay { position: absolute; top: -15px; left: 50%; transform: translateX(-50%) rotate(-15deg); font-size: 24px; z-index: 5; filter: contrast(150%); pointer-events: none; }
+
         .poop-icon { position: absolute; font-size: 18px; filter: grayscale(100%) contrast(150%); z-index: 3; bottom: 70px; right: 40px; }
 
         .stats { width: 85%; display: flex; flex-direction: column; gap: 4px; }
         .stat-bar { font-size: 7px; color: #222; display: flex; justify-content: space-between; align-items: center; }
         .bar-container { width: 60px; height: 6px; background: rgba(0,0,0,0.2); border: 1px solid #222; }
         .bar-fill { height: 100%; background: #222; transition: width 0.5s; }
-        .apple-count { font-size: 8px; color: #222; margin-top: 2px; }
+        
+        .inventory { display: flex; gap: 5px; font-size: 8px; color: #222; margin-top: 2px; }
+        .inv-item { display: flex; align-items: center; gap: 2px; }
 
-        /* MINIJUEGO - Posición inicial estricta a la izquierda */
+        .shop-item { font-size: 8px; color: #222; background: rgba(0,0,0,0.1); padding: 5px; margin: 2px; width: 90%; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; }
+        .buy-btn { background: #222; color: #c4cfa1; border: none; padding: 4px; font-family: inherit; font-size: 6px; cursor: pointer; }
+        .menu-btn { background: #222; color: #c4cfa1; border: 1px solid #444; padding: 10px; font-family: inherit; font-size: 8px; cursor: pointer; margin: 5px; width: 140px; text-align: center; }
+        .menu-btn:active { background: #444; }
+
         #game-player { position: absolute; bottom: 10px; left: 5px; font-size: 35px; filter: grayscale(100%) contrast(150%); z-index: 5; will-change: transform; }
         .game-item { position: absolute; top: -20px; left: 5px; font-size: 25px; filter: grayscale(100%) contrast(150%); z-index: 4; will-change: transform; }
         #game-ui { position: absolute; top: 5px; width: 100%; text-align: center; font-size: 8px; color: #222; z-index: 6; line-height: 1.5; }
         .shield-active { filter: grayscale(100%) contrast(150%) drop-shadow(0 0 5px gold) !important; }
         .hurt-active { filter: grayscale(100%) contrast(150%) opacity(0.5) !important; }
 
+        .whack-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 5px; width: 90%; height: 80%; margin-top: 25px; }
+        .whack-hole { background: rgba(0,0,0,0.2); border: 2px solid #222; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; user-select: none; }
+        .whack-hole:active { background: rgba(0,0,0,0.4); }
+        #whack-ui { position:absolute; top:5px; width:100%; text-align:center; font-size:8px; z-index:6; line-height: 1.5; }
+        #whack-timer-bar { width: 90%; height: 8px; background: rgba(0,0,0,0.3); border: 1px solid #222; margin: 5px auto; overflow: hidden; }
+        #whack-timer-fill { height: 100%; background: #ff4c4c; width: 100%; }
+
         .death-text { font-size: 9px; color: #222; text-align: center; margin: 10px; line-height: 1.8; }
         .btn-revive { margin-top: 15px; background: #222; color: #c4cfa1; border: none; padding: 10px 20px; font-family: inherit; font-size: 10px; cursor: pointer; border-radius: 5px; }
 
-        /* CONTROLES */
         .bottom-controls { margin-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; }
-        .action-buttons { display: flex; gap: 12px; }
-        .btn { 
-            width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(to bottom, #f5f5f5, #c4c4c4);
-            border: 1px solid #999; box-shadow: 0px 4px 0px var(--btn-shadow), 0px 6px 10px rgba(0,0,0,0.3), inset 0px 2px 2px rgba(255,255,255,0.8);
-            cursor: pointer; font-size: 7px; font-family: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; outline: none; color: #333; 
-        }
+        .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .btn { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(to bottom, #f5f5f5, #c4c4c4); border: 1px solid #999; box-shadow: 0px 4px 0px var(--btn-shadow), 0px 6px 10px rgba(0,0,0,0.3), inset 0px 2px 2px rgba(255,255,255,0.8); cursor: pointer; font-size: 7px; font-family: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; outline: none; color: #333; }
         .btn:active { transform: translateY(4px); box-shadow: 0px 0px 0px var(--btn-shadow), 0px 2px 5px rgba(0,0,0,0.3), inset 0px 2px 2px rgba(0,0,0,0.2); }
         
-        .move-buttons { 
-            display: flex; 
-            justify-content: center; 
-            gap: 30px; 
-            width: 100%; 
-            margin-top: 5px;
-            touch-action: none; 
-        }
-        .move-btn { 
-            width: 60px; height: 60px; 
-            background: linear-gradient(to bottom, #444, #222); border: 1px solid #111; color: #ccc; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; font-size: 28px; border-radius: 50%; user-select: none; 
-            box-shadow: inset 0px 2px 2px rgba(255,255,255,0.2), 0px 3px 3px rgba(0,0,0,0.5);
-            touch-action: none;
-        }
+        .move-buttons { display: flex; justify-content: center; gap: 30px; width: 100%; margin-top: 5px; touch-action: none; }
+        .move-btn { width: 60px; height: 60px; background: linear-gradient(to bottom, #444, #222); border: 1px solid #111; color: #ccc; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; border-radius: 50%; user-select: none; box-shadow: inset 0px 2px 2px rgba(255,255,255,0.2), 0px 3px 3px rgba(0,0,0,0.5); touch-action: none; }
         .move-btn:active { background: #111; box-shadow: inset 0px 4px 6px rgba(0,0,0,0.8); transform: scale(0.95); }
 
         .bottom-extras { display: flex; align-items: center; gap: 15px; margin-top: 5px; }
@@ -153,24 +117,61 @@
 
     <div class="screen-container">
         <div class="screen" id="screen">
+            <div class="weather-icon" id="weatherIcon">☀️</div>
+            
             <div class="view" id="pet-view">
                 <div class="pet-header">
                     <div class="pet-name" id="petNameDisplay">Mochi</div>
                     <div class="pet-age" id="petAgeDisplay">Día 1</div>
                 </div>
-                <div class="pet-sprite" id="petSprite">🥚</div>
+                <div class="pet-container">
+                    <div class="pet-sprite" id="petSprite">🥚</div>
+                    <div class="hat-overlay hidden-view" id="hatOverlay">🧢</div>
+                </div>
                 <div class="poop-icon hidden-view" id="poopIcon">💩</div>
                 <div class="stats">
                     <div class="stat-bar">COM <div class="bar-container"><div class="bar-fill" id="hungerBar" style="width: 100%"></div></div></div>
                     <div class="stat-bar">FEL <div class="bar-container"><div class="bar-fill" id="happyBar" style="width: 100%"></div></div></div>
                     <div class="stat-bar">ENE <div class="bar-container"><div class="bar-fill" id="energyBar" style="width: 100%"></div></div></div>
                 </div>
-                <div class="apple-count">🍎 Manzanas: <span id="appleCount">5</span></div>
+                <div class="inventory">
+                    <div class="inv-item">🍎:<span id="appleCount">5</span></div>
+                    <div class="inv-item">💊:<span id="medCount">1</span></div>
+                    <div class="inv-item">🪙:<span id="coinCount">0</span></div>
+                </div>
+            </div>
+
+            <div class="view hidden-view" id="shop-view">
+                <div style="font-size: 9px; margin-bottom: 10px; color: #222;">TIENDA 🪙<span id="shopCoins">0</span></div>
+                <div class="shop-item">💊 Medicina (30) <button class="buy-btn" onclick="buyItem('med', 30)">COMPRAR</button></div>
+                <div class="shop-item">⚡ Bateria (20) <button class="buy-btn" onclick="buyItem('energy', 20)">COMPRAR</button></div>
+                <div class="shop-item">🧢 Gorra (500) <button class="buy-btn" onclick="buyItem('hat', 500)">COMPRAR</button></div>
+                <button class="buy-btn" style="margin-top: 10px; padding: 8px; font-size: 8px;" onclick="action('shop')">SALIR</button>
+            </div>
+
+            <div class="view hidden-view" id="menu-view">
+                <div style="font-size: 9px; margin-bottom: 10px; color: #222;">ELIGE JUEGO</div>
+                <button class="menu-btn" onclick="startGame1()">1. CAZA MANZANAS</button>
+                <button class="menu-btn" onclick="startGame2()">2. GOLPEA TOPO</button>
+                <button class="buy-btn" style="margin-top: 10px; padding: 8px; font-size: 8px;" onclick="closeGameMenu()">SALIR</button>
             </div>
 
             <div class="view hidden-view" id="game-view">
-                <div id="game-ui">Puntos: 0<br>Récord: 0<br>❤️❤️❤️</div>
+                <div id="game-ui">Puntos: 0<br>Monedas: 0<br>❤️❤️❤️</div>
                 <div id="game-player">🐤</div>
+            </div>
+
+            <div class="view hidden-view" id="whack-view">
+                <div id="whack-ui">
+                    Aciertos: <span id="whack-score">0</span> ❤️<span id="whack-lives">3</span>
+                    <div id="whack-timer-bar"><div id="whack-timer-fill"></div></div>
+                </div>
+                <div class="whack-grid">
+                    <div class="whack-hole" id="hole1" onclick="whack(1)"></div>
+                    <div class="whack-hole" id="hole2" onclick="whack(2)"></div>
+                    <div class="whack-hole" id="hole3" onclick="whack(3)"></div>
+                    <div class="whack-hole" id="hole4" onclick="whack(4)"></div>
+                </div>
             </div>
 
             <div class="view hidden-view" id="dead-view">
@@ -185,9 +186,11 @@
     <div class="bottom-controls">
         <div class="action-buttons">
             <button class="btn" onclick="action('feed')">COMER</button>
+            <button class="btn" onclick="action('med')">CURAR</button>
             <button class="btn" onclick="action('play')">JUGAR</button>
             <button class="btn" onclick="action('sleep')">DORMIR</button>
             <button class="btn" onclick="action('clean')">LIMPIAR</button>
+            <button class="btn" onclick="action('shop')">TIENDA</button>
         </div>
         
         <div class="move-buttons">
@@ -214,7 +217,6 @@
 </div>
 
 <script>
-    // SISTEMA DE SONIDO
     let audioCtx;
     function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
     function playSound(freq, duration, type = 'square', volume = 0.1) {
@@ -261,72 +263,173 @@
         root.style.setProperty('--shell-border', s.border); root.style.setProperty('--btn-shadow', s.shadow);
     }
 
-    let pet = {}, currentSkinIndex = 0, birthTime = Date.now(), highScore = 0;
+    let gameSave = { coins: 0, meds: 1, hasHat: false, highScore: 0 };
+    function loadGame() {
+        try {
+            let saved = localStorage.getItem('tamagotchiSaveV18');
+            if (saved) {
+                let parsed = JSON.parse(saved);
+                if (parsed) {
+                    gameSave.coins = parsed.coins || 0;
+                    gameSave.meds = parsed.meds !== undefined ? parsed.meds : 1;
+                    gameSave.hasHat = parsed.hasHat || false;
+                    gameSave.highScore = parsed.highScore || 0;
+                }
+            }
+        } catch(e) { console.error("Error cargando", e); }
+    }
+    function saveGame() {
+        try { localStorage.setItem('tamagotchiSaveV18', JSON.stringify(gameSave)); } catch(e) { console.error("Error guardando", e); }
+    }
+
+    let pet = {}, currentSkinIndex = 0, birthTime = Date.now(), currentWeather = 'sun';
     const allEvolutions = ["🥚", "🐣", "🐤", "🐥", "🐰", "🐱", "🐶", "🦊", "🐼", "🦁", "🐯", "🐻", "👾", "🐲", "🐉"];
 
     function initPet() {
-        pet = { name: "Mochi", sprite: "🥚", hunger: 100, happy: 100, energy: 100, age: 1, isAlive: true, isSleeping: false, hasPoop: false, poopX: 0, poopY: 0, apples: 5, skinsUnlocked: allEvolutions };
+        pet = { name: "Mochi", sprite: "🥚", hunger: 100, happy: 100, energy: 100, age: 1, isAlive: true, isSleeping: false, hasPoop: false, poopX: 0, poopY: 0, apples: 5, isSick: false, skinsUnlocked: allEvolutions };
         currentSkinIndex = 0; birthTime = Date.now();
+        document.getElementById("screen").classList.remove("night-mode");
     }
     function startGame() {
         initPet();
-        document.getElementById("pet-view").classList.remove("hidden-view");
-        document.getElementById("game-view").classList.add("hidden-view");
-        document.getElementById("dead-view").classList.add("hidden-view");
+        showView("pet-view");
         updateUI();
     }
     function revivePet() { playSound(523, 0.1); playSound(659, 0.1); playSound(784, 0.2); startGame(); }
 
+    function showView(viewId) {
+        ["pet-view", "shop-view", "menu-view", "game-view", "whack-view", "dead-view"].forEach(v => {
+            let el = document.getElementById(v);
+            if (el) el.classList.add("hidden-view");
+        });
+        let activeEl = document.getElementById(viewId);
+        if (activeEl) activeEl.classList.remove("hidden-view");
+    }
+
     function action(type) {
-        if (!pet.isAlive || isPlayingMiniGame) return;
+        if (!pet.isAlive || isPlayingMiniGame1 || isPlayingMiniGame2) return;
+        if (type !== 'shop' && document.getElementById("shop-view").classList.contains("hidden-view") === false) return;
+        if (type !== 'play' && document.getElementById("menu-view").classList.contains("hidden-view") === false) return;
+
         playSound(440, 0.05);
-        if (pet.sprite === "🥚" && type !== 'clean') { document.getElementById("messageText").innerText = "Aún es un huevo, espera..."; return; }
+        if (pet.sprite === "🥚" && type !== 'clean' && type !== 'shop') { document.getElementById("messageText").innerText = "Aún es un huevo, espera..."; return; }
         if (pet.isSleeping && type !== 'sleep') { document.getElementById("messageText").innerText = "¡Zzz... Está durmiendo!"; return; }
+
         switch(type) {
             case 'feed':
                 if (pet.apples > 0) { if (pet.hunger < 100) { pet.apples--; pet.hunger += 20; pet.happy -= 5; document.getElementById("messageText").innerText = "¡Ñam ñam!"; playSound(600, 0.1); playSound(800, 0.1); } else document.getElementById("messageText").innerText = "No tiene hambre."; } 
                 else document.getElementById("messageText").innerText = "¡Sin manzanas! Juega para ganar.";
                 break;
-            case 'play': startMiniGame(); break;
-            case 'sleep': pet.isSleeping = !pet.isSleeping; document.getElementById("messageText").innerText = pet.isSleeping ? "Durmiendo... Zzz" : "¡Buenos días!"; if(pet.isSleeping) playSound(300, 0.5, 'sine'); break;
+            case 'med':
+                if (gameSave.meds > 0) { if (pet.isSick) { gameSave.meds--; pet.isSick = false; saveGame(); document.getElementById("messageText").innerText = "¡Recuperado!"; playMelody([{freq:523,dur:0.1}, {freq:659,dur:0.1}, {freq:784,dur:0.2}]); } else document.getElementById("messageText").innerText = "No está enfermo."; } 
+                else document.getElementById("messageText").innerText = "¡Sin medicina! Usa la tienda.";
+                break;
+            case 'play': showView("menu-view"); break;
+            case 'sleep': 
+                pet.isSleeping = !pet.isSleeping; 
+                document.getElementById("messageText").innerText = pet.isSleeping ? "Durmiendo... Zzz" : "¡Buenos días!"; 
+                document.getElementById("screen").classList.toggle("night-mode", pet.isSleeping);
+                if(pet.isSleeping) playSound(300, 0.5, 'sine'); 
+                break;
             case 'clean': if (pet.hasPoop) { pet.hasPoop = false; pet.happy += 10; document.getElementById("messageText").innerText = "¡Limpio y reluciente!"; playSound(500, 0.05); playSound(700,0.1); } else document.getElementById("messageText").innerText = "No hay que limpiar."; break;
+            case 'shop': 
+                if (document.getElementById("shop-view").classList.contains("hidden-view")) showView("shop-view"); 
+                else showView("pet-view");
+                break;
         }
         capStats(); updateUI();
+    }
+
+    function buyItem(item, cost) {
+        if (gameSave.coins >= cost) {
+            gameSave.coins -= cost;
+            if (item === 'med') gameSave.meds++;
+            if (item === 'energy') pet.energy = 100;
+            if (item === 'hat') gameSave.hasHat = true;
+            saveGame();
+            playSound(880, 0.1); playSound(988, 0.1);
+            document.getElementById("messageText").innerText = "¡Compra exitosa!";
+        } else {
+            playSound(150, 0.2, 'sawtooth');
+            document.getElementById("messageText").innerText = "Monedas insuficientes.";
+        }
+        updateUI();
     }
 
     function evolve() {
         if (currentSkinIndex < pet.skinsUnlocked.length - 1) {
             currentSkinIndex++; pet.sprite = pet.skinsUnlocked[currentSkinIndex];
-            document.getElementById("messageText").innerText = "¡Mochi ha evolucionado!";
+            document.getElementById("messageText").innerText = "¡Mochi está evolucionando!";
             document.getElementById("game-player").innerText = pet.sprite;
             playMelody([{freq:523,dur:0.1}, {freq:659,dur:0.1}, {freq:784,dur:0.2}]);
+            let screenEl = document.getElementById("screen");
+            screenEl.classList.add("evolve-flash");
+            setTimeout(() => screenEl.classList.remove("evolve-flash"), 2000);
         }
     }
 
     setInterval(() => {
-        if (!pet.isAlive || isPlayingMiniGame) return;
+        if (!pet.isAlive || isPlayingMiniGame1 || isPlayingMiniGame2) return;
         if (pet.sprite === "🥚" && Math.floor((Date.now() - birthTime) / 1000) > 10) evolve();
-        if (pet.isSleeping) { pet.energy += 5; pet.hunger -= 1; } else { pet.hunger -= 2; pet.happy -= 2; pet.energy -= 1; }
+        
+        if (Math.random() < 0.05) {
+            currentWeather = ['sun', 'rain', 'snow'][Math.floor(Math.random() * 3)];
+            updateWeather();
+        }
+
+        let hungerDec = 2, happyDec = 2, energyDec = 1;
+        if (currentWeather === 'rain') energyDec = 2;
+        if (currentWeather === 'snow') hungerDec = 3;
+
+        if (pet.isSleeping) { pet.energy += 5; pet.hunger -= 1; } 
+        else { pet.hunger -= hungerDec; pet.happy -= happyDec; pet.energy -= energyDec; }
+
         if (!pet.hasPoop && pet.sprite !== "🥚" && Math.random() < 0.1) { pet.hasPoop = true; pet.poopX = Math.random() * 200 + 30; pet.poopY = Math.random() * 100 + 80; document.getElementById("messageText").innerText = "¡Mochi hizo sus necesidades!"; playSound(200, 0.2, 'sawtooth'); }
-        if (pet.hasPoop) pet.happy -= 2;
+        if (pet.hasPoop) { pet.happy -= 2; if(Math.random() < 0.1) pet.isSick = true; }
+
         let minutesLived = Math.floor((Date.now() - birthTime) / 60000); let currentDay = minutesLived + 1;
         if (currentDay > pet.age) { pet.age = currentDay; evolve(); }
-        if (pet.hunger <= 0 || pet.happy <= 0) {
-            pet.isAlive = false; document.getElementById("messageText").innerText = "";
-            document.getElementById("pet-view").classList.add("hidden-view");
-            document.getElementById("dead-view").classList.remove("hidden-view");
-            document.getElementById("death-message").innerHTML = `Mochi ha fallecido...<br><br>Días vividos: ${pet.age}<br>Récord minijuego: ${highScore} pts`;
-            playMelody([{freq:440,dur:0.2,type:'sawtooth'}, {freq:330,dur:0.2,type:'sawtooth'}, {freq:220,dur:0.5,type:'sawtooth'}]);
+
+        if (pet.hunger <= 0 || pet.happy <= 0 || pet.isSick) {
+            if (pet.isSick && Math.random() < 0.5) { /* Se salva por ahora */ } 
+            else if (pet.hunger <= 0 || pet.happy <= 0) {
+                pet.isAlive = false; document.getElementById("messageText").innerText = "";
+                document.getElementById("screen").classList.remove("night-mode");
+                showView("dead-view");
+                document.getElementById("death-message").innerHTML = `Mochi ha fallecido...<br><br>Días vividos: ${pet.age}<br>Récord minijuego: ${gameSave.highScore} pts`;
+                playMelody([{freq:440,dur:0.2,type:'sawtooth'}, {freq:330,dur:0.2,type:'sawtooth'}, {freq:220,dur:0.5,type:'sawtooth'}]);
+            }
         }
         capStats(); updateUI();
     }, 2000);
+
+    function updateWeather() {
+        let wIcon = document.getElementById("weatherIcon");
+        let oldRain = document.querySelector('.weather-rain');
+        let oldSnow = document.querySelector('.weather-snow');
+        if (oldRain) oldRain.remove();
+        if (oldSnow) oldSnow.remove();
+
+        if (currentWeather === 'sun') wIcon.innerText = "☀️";
+        else if (currentWeather === 'rain') { wIcon.innerText = "🌧️"; let d = document.createElement('div'); d.className = 'weather-rain'; document.getElementById('screen').appendChild(d); }
+        else if (currentWeather === 'snow') { wIcon.innerText = "❄️"; let d = document.createElement('div'); d.className = 'weather-snow'; document.getElementById('screen').appendChild(d); }
+    }
 
     function capStats() { pet.hunger = Math.max(0, Math.min(100, pet.hunger)); pet.happy = Math.max(0, Math.min(100, pet.happy)); pet.energy = Math.max(0, Math.min(100, pet.energy)); }
     function updateUI() {
         document.getElementById("petNameDisplay").innerText = pet.name;
         document.getElementById("petAgeDisplay").innerText = "Día " + pet.age;
-        document.getElementById("petSprite").innerText = pet.isSleeping ? "💤" : pet.sprite;
+        document.getElementById("petSprite").innerText = pet.isSick ? "🤒" : (pet.isSleeping ? "🛏️" : pet.sprite);
+        
+        let hatEl = document.getElementById("hatOverlay");
+        if (gameSave.hasHat && !pet.isSleeping && !pet.isSick) hatEl.classList.remove("hidden-view");
+        else hatEl.classList.add("hidden-view");
+
         document.getElementById("appleCount").innerText = pet.apples;
+        document.getElementById("medCount").innerText = gameSave.meds;
+        document.getElementById("coinCount").innerText = gameSave.coins;
+        document.getElementById("shopCoins").innerText = gameSave.coins;
+        
         let poopEl = document.getElementById("poopIcon");
         if(pet.hasPoop) { poopEl.classList.remove("hidden-view"); poopEl.style.left = pet.poopX + "px"; poopEl.style.top = pet.poopY + "px"; } else poopEl.classList.add("hidden-view");
         document.getElementById("hungerBar").style.width = pet.hunger + "%";
@@ -334,57 +437,49 @@
         document.getElementById("energyBar").style.width = pet.energy + "%";
     }
 
-    // ==========================================
-    // MINI-JUEGO (Límites Dinámicos Reales)
-    // ==========================================
-    let isPlayingMiniGame = false;
-    let playerPos = 0, gameScore = 0, gameLives = 3; // playerPos empieza en 0 (izquierda)
+    function closeGameMenu() { showView("pet-view"); }
+
+    // === MINIJUEGO 1 ===
+    let isPlayingMiniGame1 = false;
+    let playerPos = 0, gameScore1 = 0, gameLives1 = 3;
     let items = [], moveDir = 0, fallSpeed = 2, isInvincible = false, hitCooldown = false;
     let appleSpawnRate = 0.015, poopSpawnRate = 0.010;
-    let gamePlayerEl, gameViewEl;
-    let lastTime = 0, animationFrameId;
-    let maxPos = 180; // Se calculará dinámicamente al empezar
+    let gamePlayerEl, gameViewEl, lastTime = 0, animationFrameId, maxPos = 180;
 
-    function startMiniGame() {
+    function startGame1() {
         if (pet.energy < 20) { document.getElementById("messageText").innerText = "Mochi está muy cansado."; playSound(150, 0.3, 'sawtooth'); return; }
-        isPlayingMiniGame = true; gameScore = 0; gameLives = 3; fallSpeed = 2; appleSpawnRate = 0.015; poopSpawnRate = 0.010; items = [];
-        document.getElementById("pet-view").classList.add("hidden-view");
-        document.getElementById("game-view").classList.remove("hidden-view");
-        document.getElementById("messageText").innerText = "¡Esquiva la caca, atrapa manzanas!";
+        isPlayingMiniGame1 = true; gameScore1 = 0; gameLives1 = 3; fallSpeed = 2; appleSpawnRate = 0.015; poopSpawnRate = 0.010; items = [];
+        showView("game-view");
+        document.getElementById("messageText").innerText = "¡Esquiva caca, atrapa manzanas!";
         
         gamePlayerEl = document.getElementById("game-player");
         gameViewEl = document.getElementById("game-view");
-        
-        // Calcular límites reales basados en el ancho de la pantalla
         let gameWidth = gameViewEl.clientWidth;
-        let playerWidth = gamePlayerEl.offsetWidth || 35; // ancho del muñeco
-        maxPos = gameWidth - playerWidth - 10; // 5px de padding izquierda + 5px derecha
+        maxPos = gameWidth - (gamePlayerEl.offsetWidth || 35) - 10;
         
-        playerPos = 5; // Empieza en la izquierda
+        playerPos = 5;
         gamePlayerEl.style.transform = `translate3d(${playerPos}px, 0, 0)`;
         gamePlayerEl.innerText = pet.sprite;
         gamePlayerEl.classList.remove("shield-active", "hurt-active");
-        updateGameUI();
-        
+        updateGame1UI();
         lastTime = performance.now();
-        animationFrameId = requestAnimationFrame(updateGame);
+        animationFrameId = requestAnimationFrame(updateGame1);
     }
 
-    function updateGameUI() {
-        let hearts = "❤️".repeat(gameLives);
-        document.getElementById("game-ui").innerHTML = "Puntos: " + gameScore + "<br>Récord: " + highScore + "<br>" + hearts;
+    function updateGame1UI() {
+        let hearts = "❤️".repeat(gameLives1);
+        document.getElementById("game-ui").innerHTML = "Puntos: " + gameScore1 + "<br>Monedas: " + Math.floor(gameScore1/10) + " 🪙<br>" + hearts;
     }
 
-    function updateGame(timestamp) {
-        if (!isPlayingMiniGame) return;
+    function updateGame1(timestamp) {
+        if (!isPlayingMiniGame1) return;
         const deltaTime = (timestamp - lastTime) / 16.6;
         lastTime = timestamp;
 
-        // Movimiento limitado entre 5 y maxPos
         playerPos += moveDir * 3.5 * deltaTime; 
         if(playerPos < 5) playerPos = 5; 
         if(playerPos > maxPos) playerPos = maxPos; 
-        gamePlayerEl.style.transform = `translate3d(${playerPos - 5}px, 0, 0)`; // Ajuste visual fino
+        gamePlayerEl.style.transform = `translate3d(${playerPos - 5}px, 0, 0)`;
 
         if (Math.random() < appleSpawnRate) spawnItem('🍎');
         if (Math.random() < poopSpawnRate) spawnItem('💩');
@@ -398,84 +493,192 @@
             if (it.y > 130) { 
                 if (Math.abs(it.x - playerPos) < 30) {
                     if (it.type === '🍎') {
-                        gameScore += 10; pet.apples++; playSound(880, 0.05);
-                        if(gameScore % 50 === 0) { fallSpeed += 0.5; appleSpawnRate += 0.005; poopSpawnRate += 0.005; }
-                        updateGameUI();
+                        gameScore1 += 10; pet.apples++; playSound(880, 0.05);
+                        if(gameScore1 % 50 === 0) { fallSpeed += 0.5; appleSpawnRate += 0.005; poopSpawnRate += 0.005; }
+                        updateGame1UI();
                     } else if (it.type === '⭐') { activateInvincibility(); } 
                     else if (it.type === '💩') {
                         if (!isInvincible && !hitCooldown) {
-                            gameLives--; hitCooldown = true; playSound(110, 0.2, 'sawtooth');
+                            gameLives1--; hitCooldown = true; playSound(110, 0.2, 'sawtooth');
                             gamePlayerEl.classList.add("hurt-active");
                             setTimeout(() => { hitCooldown = false; gamePlayerEl.classList.remove("hurt-active"); }, 1000);
-                            updateGameUI();
-                            if (gameLives <= 0) { endMiniGame(); return; }
+                            updateGame1UI();
+                            if (gameLives1 <= 0) { endGame1(); return; }
                         }
                     }
                     it.el.remove(); items.splice(i, 1);
                 } else if (it.y > 180) { it.el.remove(); items.splice(i, 1); } 
             }
         }
-        animationFrameId = requestAnimationFrame(updateGame);
+        animationFrameId = requestAnimationFrame(updateGame1);
     }
 
     function activateInvincibility() {
         isInvincible = true; playMelody([{freq:523,dur:0.1}, {freq:659,dur:0.1}, {freq:784,dur:0.2}]);
         gamePlayerEl.classList.add("shield-active");
-        document.getElementById("game-ui").innerHTML = "Puntos: " + gameScore + "<br>¡INVENCIBLE! ⭐<br>❤️".repeat(gameLives);
-        setTimeout(() => { isInvincible = false; gamePlayerEl.classList.remove("shield-active"); updateGameUI(); }, 10000);
+        document.getElementById("game-ui").innerHTML = "Puntos: " + gameScore1 + "<br>¡INVENCIBLE! ⭐<br>❤️".repeat(gameLives1);
+        setTimeout(() => { isInvincible = false; gamePlayerEl.classList.remove("shield-active"); updateGame1UI(); }, 10000);
     }
 
     function spawnItem(type) {
         let el = document.createElement('div');
         el.className = 'game-item'; el.innerText = type;
-        // Calcular un X aleatorio dentro del máximo permitido
         let xPos = Math.random() * (maxPos - 5) + 5; 
         el.style.transform = `translate3d(${xPos}px, -20px, 0)`;
         gameViewEl.appendChild(el);
         items.push({ el: el, y: -20, x: xPos, type: type });
     }
 
-    // === CONTROLES EN LÍNEA ===
     const btnLeft = document.getElementById('btnLeft');
     const btnRight = document.getElementById('btnRight');
-
-    function pressLeft(e) { e.preventDefault(); if(isPlayingMiniGame) moveDir = -1; }
-    function pressRight(e) { e.preventDefault(); if(isPlayingMiniGame) moveDir = 1; }
+    function pressLeft(e) { e.preventDefault(); if(isPlayingMiniGame1) moveDir = -1; }
+    function pressRight(e) { e.preventDefault(); if(isPlayingMiniGame1) moveDir = 1; }
     function release(e) { e.preventDefault(); moveDir = 0; }
+    btnLeft.addEventListener('pointerdown', pressLeft); btnLeft.addEventListener('pointerup', release); btnLeft.addEventListener('pointerleave', release); btnLeft.addEventListener('pointercancel', release);
+    btnRight.addEventListener('pointerdown', pressRight); btnRight.addEventListener('pointerup', release); btnRight.addEventListener('pointerleave', release); btnRight.addEventListener('pointercancel', release);
+    document.addEventListener('keydown', (e) => { if(!isPlayingMiniGame1) return; if(e.key === "ArrowLeft") moveDir = -1; if(e.key === "ArrowRight") moveDir = 1; });
+    document.addEventListener('keyup', (e) => { if(e.key === "ArrowLeft" || e.key === "ArrowRight") moveDir = 0; });
 
-    btnLeft.addEventListener('pointerdown', pressLeft);
-    btnLeft.addEventListener('pointerup', release);
-    btnLeft.addEventListener('pointerleave', release);
-    btnLeft.addEventListener('pointercancel', release);
-
-    btnRight.addEventListener('pointerdown', pressRight);
-    btnRight.addEventListener('pointerup', release);
-    btnRight.addEventListener('pointerleave', release);
-    btnRight.addEventListener('pointercancel', release);
-
-    document.addEventListener('keydown', (e) => {
-        if(!isPlayingMiniGame) return;
-        if(e.key === "ArrowLeft") moveDir = -1;
-        if(e.key === "ArrowRight") moveDir = 1;
-    });
-    document.addEventListener('keyup', (e) => {
-        if(e.key === "ArrowLeft" || e.key === "ArrowRight") moveDir = 0;
-    });
-
-    function endMiniGame() {
+    function endGame1() {
         cancelAnimationFrame(animationFrameId);
-        isPlayingMiniGame = false;
+        isPlayingMiniGame1 = false;
         items.forEach(it => it.el.remove()); items = [];
+        let earnedCoins = Math.floor(gameScore1 / 10);
+        gameSave.coins += earnedCoins;
+        if (gameScore1 > gameSave.highScore) { gameSave.highScore = gameScore1; }
+        saveGame();
+        
         let recordMessage = "";
-        if (gameScore > highScore) { highScore = gameScore; recordMessage = " ¡NUEVO RÉCORD!"; playMelody([{freq:784,dur:0.1}, {freq:880,dur:0.1}, {freq:988,dur:0.2}]); }
-        document.getElementById("game-view").classList.add("hidden-view");
-        document.getElementById("pet-view").classList.remove("hidden-view");
-        let bonus = Math.floor(gameScore / 5); pet.happy += bonus; pet.hunger -= 10; pet.energy -= 15;
-        document.getElementById("messageText").innerText = "Fin del juego. +" + bonus + " de felicidad." + recordMessage;
+        if (gameScore1 > 0 && gameScore1 === gameSave.highScore) recordMessage = " ¡RÉCORD!";
+        
+        showView("pet-view");
+        let bonus = Math.floor(gameScore1 / 5); pet.happy += bonus; pet.hunger -= 10; pet.energy -= 15;
+        document.getElementById("messageText").innerText = "+" + bonus + " Felicidad, +" + earnedCoins + " 🪙." + recordMessage;
         capStats(); updateUI();
     }
 
-    window.onload = startGame;
+    // === MINIJUEGO 2 (DIFICULTAD EXTREMA Y ECONOMÍA EQUILIBRADA) ===
+    let isPlayingMiniGame2 = false;
+    let whackScore = 0, whackLives = 3;
+    let whackActiveHole = 0, whackIsBomb = false;
+    let whackMoleTimer = 100;
+    let whackMaxTime = 1000; // 1 SEGUNDO inicial
+    let whackLastTime = 0, whackAnimFrame;
+    let whackSpawnDelay = 500, whackNextSpawnTime = 0; // 0.5s inicial
+
+    function startGame2() {
+        if (pet.energy < 20) { document.getElementById("messageText").innerText = "Mochi está muy cansado."; playSound(150, 0.3, 'sawtooth'); return; }
+        isPlayingMiniGame2 = true;
+        whackScore = 0; whackLives = 3; 
+        whackSpawnDelay = 500; // Reinicia velocidad de spawn
+        whackMaxTime = 1000; // Reinicia velocidad de tiempo
+        showView("whack-view");
+        document.getElementById("messageText").innerText = "¡Rápido! No toques bombas.";
+        
+        updateWhackUI();
+        whackNextSpawnTime = 0;
+        whackActiveHole = 0;
+        whackLastTime = performance.now();
+        whackAnimFrame = requestAnimationFrame(updateWhackGame);
+    }
+
+    function spawnWhack() {
+        for(let i=1; i<=4; i++) document.getElementById("hole"+i).innerText = "";
+        whackActiveHole = Math.floor(Math.random() * 4) + 1;
+        whackIsBomb = Math.random() < 0.25; // 25% BOMBA
+        document.getElementById("hole"+whackActiveHole).innerText = whackIsBomb ? "💣" : "🐰";
+        whackMoleTimer = 100;
+        document.getElementById("whack-timer-fill").style.width = "100%";
+    }
+
+    function updateWhackGame(timestamp) {
+        if (!isPlayingMiniGame2) return;
+        const dt = timestamp - whackLastTime;
+        whackLastTime = timestamp;
+
+        if (whackActiveHole !== 0) {
+            whackMoleTimer -= (dt / whackMaxTime) * 100;
+            document.getElementById("whack-timer-fill").style.width = Math.max(0, whackMoleTimer) + "%";
+
+            if (whackMoleTimer <= 0) {
+                if (!whackIsBomb) {
+                    whackLives--;
+                    playSound(150, 0.3, 'sawtooth');
+                    updateWhackUI();
+                    if (whackLives <= 0) {
+                        endGame2();
+                        return;
+                    }
+                }
+                document.getElementById("hole"+whackActiveHole).innerText = "";
+                whackActiveHole = 0;
+                whackNextSpawnTime = whackSpawnDelay;
+            }
+        } else {
+            whackNextSpawnTime -= dt;
+            if (whackNextSpawnTime <= 0) {
+                spawnWhack();
+            }
+        }
+
+        whackAnimFrame = requestAnimationFrame(updateWhackGame);
+    }
+
+    function whack(holeId) {
+        if (!isPlayingMiniGame2 || whackActiveHole === 0) return;
+
+        if (holeId === whackActiveHole) {
+            if (whackIsBomb) {
+                playSound(110, 0.5, 'sawtooth');
+                whackLives = 0;
+                updateWhackUI();
+                endGame2();
+                return;
+            } else {
+                playSound(880, 0.05);
+                whackScore += 10;
+                
+                // DIFICULTAD PROGRESIVA: Cada 50 puntos acelera tiempo y spawn
+                if (whackScore % 50 === 0) {
+                    whackSpawnDelay = Math.max(100, whackSpawnDelay - 40); // Aparece más rápido
+                    whackMaxTime = Math.max(500, whackMaxTime - 80); // Tiempo se agota más rápido
+                }
+                
+                updateWhackUI();
+                
+                document.getElementById("hole"+whackActiveHole).innerText = "";
+                whackActiveHole = 0;
+                whackNextSpawnTime = whackSpawnDelay;
+            }
+        }
+    }
+
+    function updateWhackUI() {
+        document.getElementById("whack-score").innerText = whackScore;
+        document.getElementById("whack-lives").innerText = whackLives;
+    }
+
+    function endGame2() {
+        cancelAnimationFrame(whackAnimFrame);
+        isPlayingMiniGame2 = false;
+        for(let i=1; i<=4; i++) document.getElementById("hole"+i).innerText = "";
+        document.getElementById("whack-timer-fill").style.width = "100%";
+
+        // ECONOMÍA REDUCIDA: 10 puntos = 1 moneda (antes era 5 pts = 1 moneda)
+        let earnedCoins = Math.floor(whackScore / 10); 
+        gameSave.coins += earnedCoins;
+        saveGame();
+
+        showView("pet-view");
+        let bonus = Math.floor(whackScore / 10); pet.happy += bonus; pet.hunger -= 5; pet.energy -= 10;
+        document.getElementById("messageText").innerText = "+" + bonus + " Felicidad, +" + earnedCoins + " 🪙.";
+        capStats(); updateUI();
+    }
+
+    window.onload = function() {
+        loadGame();
+        startGame();
+    };
 </script>
 </body>
 </html>
